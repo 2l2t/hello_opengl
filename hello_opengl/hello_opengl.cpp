@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#pragma comment(lib, "opengl32.lib")
-
-#include "glew.h"
+#include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
+
+#include "hello_opengl.h"
 
 GLFWwindow* window;
 
@@ -52,7 +52,7 @@ int main()
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("shader/vertex.glsl", "shader/fragment.glsl");
+	GLuint programID = LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
 
 	static const GLfloat g_vertex_buffer_data[] = {-1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f};
 	
