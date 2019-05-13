@@ -21,7 +21,7 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
 	std::string VertexShaderCode;
-	std::ifstream VertexShaderStream(vertex_file_path, std::ios::in);
+	std::ifstream VertexShaderStream(vertex_file_path);
 
 	if (VertexShaderStream.is_open()) {
 		std::stringstream sstr;
