@@ -8,7 +8,7 @@
 #include <filesystem>
 using namespace std;
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 #include "shader.hpp"
 
