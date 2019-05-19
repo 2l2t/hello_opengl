@@ -11,8 +11,14 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
-configure_file(resources/simpleshader.vert resources COPYONLY)
-configure_file(resources/simpleshader.frag resources COPYONLY)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/resources/textures)
+
+configure_file(resources/simpleshader.vert ./resources COPYONLY)
+configure_file(resources/simpleshader.frag ./resources COPYONLY)
+configure_file(resources/textureshader.vert ./resources COPYONLY)
+configure_file(resources/textureshader.frag ./resources COPYONLY)
+configure_file(resources/textures/container.jpg ./resources/textures COPYONLY)
+configure_file(resources/textures/awesomeface.png ./resources/textures COPYONLY)
 
 # TODO: Add tests and install targets if needed.
 target_link_libraries(hello_opengl PRIVATE glad::glad)
