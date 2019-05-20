@@ -8,3 +8,5 @@
 #pragma comment(lib, "opengl32.lib")
 
 // TODO: Reference additional headers your program requires here.
+
+#include "camera.h"
