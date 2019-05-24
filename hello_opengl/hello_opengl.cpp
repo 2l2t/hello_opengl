@@ -180,6 +180,10 @@ int main()
 		lightShader.setVec3("lightPos", lightPos);
 		lightShader.setVec3("viewPos", camera.Position);
 
+		// Blinn-Phong Options
+		lightShader.setBool("blinnphong", true);
+		lightShader.setInt("shine", 128);
+
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		lightShader.setMat4("projection", projection);

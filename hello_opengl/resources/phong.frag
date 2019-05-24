@@ -9,6 +9,9 @@ uniform vec3 viewPos;
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 
+uniform bool blinnphong;
+uniform int shine;
+
 void main()
 {
 	float aStr = 0.1;
@@ -19,10 +22,19 @@ void main()
 	float dv = max(dot(norm, lightDir), 0.0);
 	vec3 d = dv * lightColor;
 
-	float sStr = 0.5;
+	float sStr = 1.0;
 	vec3 viewDir = normalize(viewPos - FragPos);
+
+	// testing Blinn-Phong here
+	vec3 halfDir = normalize(lightDir + viewDir);
+
 	vec3 reflectDir = reflect(-lightDir, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 128);
+	
+	float spec;
+	if (blinnphong)
+		spec = pow(max(dot(halfDir, norm), 0.0), shine);
+	else
+		spec = pow(max(dot(viewDir, reflectDir), 0.0), shine);
 	vec3 s = sStr * spec * lightColor;
 
 
