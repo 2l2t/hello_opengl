@@ -28,6 +28,7 @@ configure_file(resources/phong.frag ./resources COPYONLY)
 # configure_file(resources/textures/awesomeface.png ./resources/textures COPYONLY)
 configure_file(resources/textures/container2.png ./resources/textures COPYONLY)
 configure_file(resources/textures/container2_specular.png ./resources/textures COPYONLY)
+configure_file(resources/textures/matrix.jpg ./resources/textures COPYONLY)
 
 # TODO: Add tests and install targets if needed.
 target_link_libraries(hello_opengl PRIVATE glad::glad)
