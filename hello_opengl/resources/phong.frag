@@ -1,43 +1,45 @@
 #version 330 core
 out vec4 FragColor;
 
+struct Material {
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	float shine;
+};
+
+struct Light {
+	vec3 position;
+
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+};
+
 in vec3 Normal;
 in vec3 FragPos;
 
-uniform vec3 lightPos;
 uniform vec3 viewPos;
-uniform vec3 objectColor;
-uniform vec3 lightColor;
+uniform Material material;
+uniform Light light;
 
-uniform bool blinnphong;
-uniform int shine;
 
 void main()
 {
-	float aStr = 0.1;
-	vec3 a = aStr * lightColor;
+	vec3 a = light.ambient * material.ambient;
 
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(lightPos - FragPos);
+	vec3 lightDir = normalize(light.position - FragPos);
 	float dv = max(dot(norm, lightDir), 0.0);
-	vec3 d = dv * lightColor;
+	vec3 d = light.diffuse * (dv * material.diffuse);
 
-	float sStr = 1.0;
 	vec3 viewDir = normalize(viewPos - FragPos);
-
-	// testing Blinn-Phong here
-	vec3 halfDir = normalize(lightDir + viewDir);
-
 	vec3 reflectDir = reflect(-lightDir, norm);
 	
-	float spec;
-	if (blinnphong)
-		spec = pow(max(dot(halfDir, norm), 0.0), shine);
-	else
-		spec = pow(max(dot(viewDir, reflectDir), 0.0), shine);
-	vec3 s = sStr * spec * lightColor;
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shine);
+	vec3 s = light.specular * (spec * material.specular);
 
 
-	vec3 result = (a + d + s) * objectColor;
+	vec3 result = a + d + s;
 	FragColor = vec4(result, 1.0);
 }
