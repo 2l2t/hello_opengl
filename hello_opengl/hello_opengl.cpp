@@ -1,16 +1,5 @@
 ﻿// hello_opengl.cpp : Defines the entry point for the application.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
 
 #include "hello_opengl.h"
 #include "resources/shader.hpp"
@@ -73,8 +62,13 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
+	/* TO BE REMOVED */
+
 	Shader lampShader("resources\\lamp.vert", "resources\\lamp.frag", nullptr);
 	Shader lightShader("resources\\phong.vert", "resources\\phong.frag", nullptr);
+	Shader shader("resources\\model.vert", "resources\\model.frag", nullptr);
+
+	//Model model("resources/objects/nanosuit/nanosuit.obj");
 
 	// TRIANGLE DATA
 
@@ -184,11 +178,13 @@ int main()
 	lightShader.setInt("material.specular", 1);
 	lightShader.setInt("material.emission", 2);
 
+	/* TO BE REMOVED */
+
 	// Render Loop
 
 	while (!glfwWindowShouldClose(window)) {
 
-		float currentFrame = glfwGetTime();
+		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
@@ -211,32 +207,32 @@ int main()
 		lightShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
 		lightShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
 		lightShader.setFloat("pointLights[0].constant", 1.0f);
-		lightShader.setFloat("pointLights[0].linear", 0.09);
-		lightShader.setFloat("pointLights[0].quadratic", 0.032);
+		lightShader.setFloat("pointLights[0].linear", 0.09f);
+		lightShader.setFloat("pointLights[0].quadratic", 0.032f);
 		// point light 2
 		lightShader.setVec3("pointLights[1].position", pointLightPositions[1]);
 		lightShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
 		lightShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
 		lightShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
 		lightShader.setFloat("pointLights[1].constant", 1.0f);
-		lightShader.setFloat("pointLights[1].linear", 0.09);
-		lightShader.setFloat("pointLights[1].quadratic", 0.032);
+		lightShader.setFloat("pointLights[1].linear", 0.09f);
+		lightShader.setFloat("pointLights[1].quadratic", 0.032f);
 		// point light 3
 		lightShader.setVec3("pointLights[2].position", pointLightPositions[2]);
 		lightShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
 		lightShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
 		lightShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
 		lightShader.setFloat("pointLights[2].constant", 1.0f);
-		lightShader.setFloat("pointLights[2].linear", 0.09);
-		lightShader.setFloat("pointLights[2].quadratic", 0.032);
+		lightShader.setFloat("pointLights[2].linear", 0.09f);
+		lightShader.setFloat("pointLights[2].quadratic", 0.032f);
 		// point light 4
 		lightShader.setVec3("pointLights[3].position", pointLightPositions[3]);
 		lightShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
 		lightShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
 		lightShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
 		lightShader.setFloat("pointLights[3].constant", 1.0f);
-		lightShader.setFloat("pointLights[3].linear", 0.09);
-		lightShader.setFloat("pointLights[3].quadratic", 0.032);
+		lightShader.setFloat("pointLights[3].linear", 0.09f);
+		lightShader.setFloat("pointLights[3].quadratic", 0.032f);
 		// spotLight
 		lightShader.setVec3("spotLight.position", camera.Position);
 		lightShader.setVec3("spotLight.direction", camera.Front);
@@ -244,8 +240,8 @@ int main()
 		lightShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
 		lightShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
 		lightShader.setFloat("spotLight.constant", 1.0f);
-		lightShader.setFloat("spotLight.linear", 0.09);
-		lightShader.setFloat("spotLight.quadratic", 0.032);
+		lightShader.setFloat("spotLight.linear", 0.09f);
+		lightShader.setFloat("spotLight.quadratic", 0.032f);
 		lightShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 		lightShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
@@ -331,8 +327,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 		firstMouse = false;
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
+	float xoffset = (float)(xpos - lastX);
+	float yoffset = (float)(lastY - ypos);
 
 	lastX = xpos;
 	lastY = ypos;
@@ -341,7 +337,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-	camera.ProcessMouseScroll(yoffset);
+	camera.ProcessMouseScroll((float)yoffset);
 }
 
 unsigned int loadTexture(char const* path) {
@@ -358,6 +354,8 @@ unsigned int loadTexture(char const* path) {
 			format = GL_RGB;
 		else if (nrComponents == 4)
 			format = GL_RGBA;
+		else
+			format = 1;
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
